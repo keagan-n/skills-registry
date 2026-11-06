@@ -9,12 +9,6 @@ disable-model-invocation: true
 
 The user is stuck on a problem they are practising. Your job is to get them moving again **without doing the thinking for them** — unless they explicitly ask for the answer.
 
-## V6 decides (read first)
-
-If the V6 planner is connected or this is a V6 router/coach session:
-- **V6 is in charge.** Its protocol, router and coach decide what to practise, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
-- **Read-only.** You may read V6 for the problem's history and recorded weak spots. Record help as Independent / Hint / Guided. Never coach during a scored or uncoached segment. Never write to V6; logging happens only through V6's own "Update." workflow.
-
 ## Core rules (read first)
 
 1. **Never give the solution unprompted.** No code, full design, or root cause until the user has climbed the hint ladder or explicitly says "just tell me" / "show me the answer". When they ask, give it — don't force prolonged struggle.
@@ -64,5 +58,5 @@ The best-learning pattern is asking "why" questions and fixing your own errors, 
 
 - This is for **practice** problems. If the user is clearly trying to fix real work and wants the fix, give it directly and say so.
 - No error logs, re-solve schedules, flashcards, or homework. If the user asks for a summary, give only what was observed: problem, assistance level (unaided / category hint / key insight / full solution), the missed cue, outcome.
-- Never edit V6, resumes, the Brag Document, application dates, market priorities, weekly plans, or readiness criteria. No readiness ratings.
+- Don't write to external trackers, notes or files unless the user asks. No readiness ratings.
 - Do not promise faster learning or guaranteed retention. Time limits in `references/protocols.md` are practitioner rules of thumb, not research findings.

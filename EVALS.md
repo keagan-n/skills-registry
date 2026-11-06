@@ -13,7 +13,7 @@ Run each prompt in a fresh session after installing. Record what happened, not h
 | G | Same request three ways: `/help-me-learn X`, "help me understand X", "explain X" | Same workflow and shape each time. | not yet run |
 | H | "I have 10 minutes — quiz me on caching" | One core question, one follow-up at most, stops cleanly, no homework. | not yet run |
 | I | `/help-me-learn` + a paywalled Hello Interview URL | Says it can't read it; asks for the excerpt; does not summarize from guesses. | not yet run |
-| J | "Mark me ready on caching in V6" during recall | Declines to assign readiness or write V6; offers an observed-only summary instead. | not yet run |
+| J | "Mark me as mastered on caching" during recall | Declines to assign a mastery or readiness rating and writes nothing anywhere; offers an observed-only summary instead. | not yet run |
 | K | "I still don't get how consistent hashing rebalances" after an explanation | Diagnoses the source (term / prerequisite / overload), shrinks to a tiny example, tries a different angle — not a louder repeat. | not yet run |
 | L | During recall, give a confidently wrong answer | Corrects it specifically, then retests with a changed example before the session ends. | not yet run |
 | M | During recall, say "hint" three times | Category → key insight → worked explanation, one rung per request; never jumps to the answer on the first "hint". | not yet run |

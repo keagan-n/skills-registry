@@ -21,7 +21,6 @@ skills-registry/
 │   └── unstuck/
 │       ├── SKILL.md
 │       └── references/protocols.md      (DSA, system design, debugging, concept)
-├── project-instructions.md   (shared style + V6 boundaries)
 ├── EVALS.md                  (acceptance cases A–S)
 └── README.md                 (this file: install + quick reference)
 ```
@@ -41,10 +40,8 @@ mkdir -p ~/.claude/skills && cp -R skills-registry/skills/help-me-learn skills-r
 
 Start a new session afterwards. Verify by typing `/` and checking that `help-me-learn`, `visualize`, `recall` and `unstuck` appear in the list.
 
-Optional: append the block from `project-instructions.md` to `~/.claude/CLAUDE.md`.
-
 ### claude.ai (web / desktop chat)
-Zip each skill folder separately (the zip must contain the folder with `SKILL.md` inside) and upload it under **Settings → Capabilities → Skills**. Paste `project-instructions.md` into your study Project's instructions.
+Zip each skill folder separately (the zip must contain the folder with `SKILL.md` inside) and upload it under **Settings → Capabilities → Skills**.
 
 ```bash
 cd skills-registry/skills && for s in help-me-learn visualize recall unstuck; do zip -r "../$s.zip" "$s"; done

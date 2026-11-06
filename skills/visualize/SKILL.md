@@ -8,13 +8,6 @@ argument-hint: "[concept or flow]"
 
 Make one clear teaching visual that shows the real mechanism, plus a short plain-language walkthrough. Read `references/design-guide.md` before drawing. Start from a template in `templates/` when one fits.
 
-## V6 decides (read first)
-
-If the V6 planner is connected (tools such as `get_preflight`, `get_system_design_history`, `get_dsa_history`) or this is a V6 router/coach session:
-- **V6 is in charge.** Its protocol, router and coach decide what to study, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
-- Don't propose this skill's defaults over a V6 assignment.
-- **Read-only.** You may read V6 for context: flows the user has struggled to whiteboard, so the visual targets them and can offer a redraw from memory. Never write to V6; logging happens only through V6's own "Update." workflow. If reads fail, say "V6 state unverified" and continue.
-
 ## Choose the format
 
 | Concept | Format |
@@ -60,4 +53,4 @@ Use the first one available:
 
 ## Boundaries
 
-No decorative dashboards, unnecessary controls, or excessive animation. No mandatory redraws or exports. Do not edit V6 or other recruiting records.
+No decorative dashboards, unnecessary controls, or excessive animation. No mandatory redraws or exports. Don't write to external trackers or files unless the user asks.

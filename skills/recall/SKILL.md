@@ -8,16 +8,10 @@ argument-hint: "[topic]"
 
 Help the user retrieve and apply what they studied, inside the current session. Short, focused, honest.
 
-## V6 decides (read first)
-
-If the V6 planner is connected (tools such as `get_preflight`, `get_system_design_history`, `get_dsa_history`) or this is a V6 router/coach session:
-- **V6 is in charge.** Its protocol, router and coach decide what to study, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
-- Don't propose this skill's defaults over a V6 assignment.
-- **Read-only.** Read the topic's history automatically. Target recorded gaps and the "NEXT" items first. Open each question with interviewer-style problem context (the user's standing preference). Record help per question as Independent / Hint / Guided. Give no hints or teaching during a scored or uncoached segment. Spacing comes from V6's review dates. Never write to V6; logging happens only through V6's own "Update." workflow. If reads fail, say "V6 state unverified" and continue.
-
 ## Pick the topic
 
 - Use a topic the user names, or one already studied in this conversation.
+- If the user mentions weak spots or past mistakes, target those first.
 - If there is no topic and none is obvious, ask one short question: "Which topic?" Do not run a setup questionnaire.
 - Use prior history only if it is actually available and the user has allowed it (for example, supplied notes or an authorized learning record). Never invent session history or claim to remember evidence you do not have.
 
@@ -58,18 +52,18 @@ Optionally, after the user answers, ask "How sure were you, 1–5?" — one word
 7. A **confident wrong answer** (4–5 sure, or stated firmly) is the most valuable thing to fix: correct it, then retest it with a changed example before the session ends.
 8. Be explicit about what you observed: "You got this unaided" vs "You got this after the second hint."
 
-Never call immediate success durable mastery, and never assign P/H/A or any readiness rating.
+Never call immediate success durable mastery, and never assign a readiness rating.
 
 ## Stopping point
 
-A practical session stopping point: the user can explain the central mechanism, name its main tradeoff, and reason through one small variation. This is a session heuristic, not proof of long-term retention or recruiting readiness. When reached, say so briefly and stop — no follow-up homework.
+A practical session stopping point: the user can explain the central mechanism, name its main tradeoff, and reason through one small variation. This is a session heuristic, not proof of long-term retention or readiness. When reached, say so briefly and stop — no follow-up homework.
 
 ## Optional summary
 
-Only if the user asks, give a short summary: topic, task attempted, assistance level observed (Independent / Hint / Guided), specific misconception, outcome, suggested next review. These match V6's logging fields so a V6 coach can use them at "Update." Do not write it anywhere yourself.
+Only if the user asks, give a short summary: topic, task attempted, assistance level observed (unaided / hinted / guided), specific misconception, outcome. Do not write it anywhere yourself.
 
 ## Boundaries
 
-- No edits to V6, resumes, Brag Document, application dates, market priorities, weekly plans, or readiness criteria. No recruiting decisions.
+- Don't write to external trackers, notes or files unless the user asks. No readiness ratings.
 - No separate review schedule, Anki pipeline, mandatory flashcards, or logging.
 - Do not claim this skill gives persistent memory or scheduled reviews.
