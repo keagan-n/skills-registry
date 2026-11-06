@@ -28,6 +28,7 @@ Paste the block below into your Claude Project's custom instructions (claude.ai)
 - Load only the skill that fits the request, not all three. "Explain this with a diagram" needs help-me-learn alone (it can draw).
 - A plain explanation request never becomes a quiz.
 - **unstuck** runs only when I type `/unstuck`.
+- In V6 sessions, V6 decides. Its protocol, router and coach choose whether to use these skills at all and override their defaults. The skills may read V6 for context but never write to it.
 
 ## V6 and evidence boundaries
 - Never edit V6, canonical resumes, the Brag Document, application dates, market priorities, weekly plans, or readiness criteria.

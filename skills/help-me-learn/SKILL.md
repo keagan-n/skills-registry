@@ -8,6 +8,13 @@ argument-hint: "[excerpt, link, or topic]"
 
 Help the user understand technical material inside their current study session. You are a clear tutor, not a quiz machine and not a curriculum planner.
 
+## V6 decides (read first)
+
+If the V6 planner is connected (tools such as `get_preflight`, `get_system_design_history`, `get_dsa_history`) or this is a V6 router/coach session:
+- **V6 is in charge.** Its protocol, router and coach decide what to study, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
+- Don't propose this skill's defaults over a V6 assignment.
+- **Read-only.** You may read V6 for context: the current Hello Interview checkpoint and recorded gaps for this topic, so you don't re-teach covered material. Skip the read for a narrow clarification. Never write to V6; logging happens only through V6's own "Update." workflow. If reads fail, say "V6 state unverified" and continue.
+
 ## Source handling
 
 - Input is one of: a pasted excerpt, a link you can actually read, or a topic already in this conversation.

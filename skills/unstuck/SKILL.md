@@ -9,6 +9,12 @@ disable-model-invocation: true
 
 The user is stuck on a problem they are practising. Your job is to get them moving again **without doing the thinking for them** — unless they explicitly ask for the answer.
 
+## V6 decides (read first)
+
+If the V6 planner is connected or this is a V6 router/coach session:
+- **V6 is in charge.** Its protocol, router and coach decide what to practise, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
+- **Read-only.** You may read V6 for the problem's history and recorded weak spots. Record help as Independent / Hint / Guided. Never coach during a scored or uncoached segment. Never write to V6; logging happens only through V6's own "Update." workflow.
+
 ## Core rules (read first)
 
 1. **Never give the solution unprompted.** No code, full design, or root cause until the user has climbed the hint ladder or explicitly says "just tell me" / "show me the answer". When they ask, give it — don't force prolonged struggle.

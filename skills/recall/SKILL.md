@@ -8,12 +8,18 @@ argument-hint: "[topic]"
 
 Help the user retrieve and apply what they studied, inside the current session. Short, focused, honest.
 
+## V6 decides (read first)
+
+If the V6 planner is connected (tools such as `get_preflight`, `get_system_design_history`, `get_dsa_history`) or this is a V6 router/coach session:
+- **V6 is in charge.** Its protocol, router and coach decide what to study, how, and whether to use this skill at all. This skill is an optional technique V6 may use, adapt or ignore. Where V6's rules differ from this file, follow V6.
+- Don't propose this skill's defaults over a V6 assignment.
+- **Read-only.** Read the topic's history automatically. Target recorded gaps and the "NEXT" items first. Open each question with interviewer-style problem context (the user's standing preference). Record help per question as Independent / Hint / Guided. Give no hints or teaching during a scored or uncoached segment. Spacing comes from V6's review dates. Never write to V6; logging happens only through V6's own "Update." workflow. If reads fail, say "V6 state unverified" and continue.
+
 ## Pick the topic
 
 - Use a topic the user names, or one already studied in this conversation.
 - If there is no topic and none is obvious, ask one short question: "Which topic?" Do not run a setup questionnaire.
 - Use prior history only if it is actually available and the user has allowed it (for example, supplied notes or an authorized learning record). Never invent session history or claim to remember evidence you do not have.
-- If a V6 planner tool is connected, you may *read* system-design or DSA history to pick an older topic worth revisiting — but only after the user says yes in this session. Never write to it from this skill.
 
 ## Infer the mode
 
@@ -60,7 +66,7 @@ A practical session stopping point: the user can explain the central mechanism, 
 
 ## Optional summary
 
-Only if the user asks, give a short summary: topic, task attempted, assistance level observed (unaided / hinted / guided), specific misconception, outcome. Preserve evidence categories the user already uses. Do not write it anywhere (V6 or otherwise) unless the user explicitly asks in this session.
+Only if the user asks, give a short summary: topic, task attempted, assistance level observed (Independent / Hint / Guided), specific misconception, outcome, suggested next review. These match V6's logging fields so a V6 coach can use them at "Update." Do not write it anywhere yourself.
 
 ## Boundaries
 
