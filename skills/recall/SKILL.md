@@ -1,6 +1,6 @@
 ---
 name: recall
-description: Recall and Transfer Coach. Runs short retrieval-practice checks (up to three questions, one at a time) on topics the user has studied or supplies, then gives specific feedback. Use this whenever the user wants to test or practise what they know — "quiz me", "check my understanding", "see what I remember", "test me on X", "give me a different scenario", "what if X changed?", or "let me try explaining it back" — even if they never say "recall". Do NOT use when the user asks for an explanation (use learn) or a diagram (use visualize), and never turn a plain explanation request into a quiz.
+description: Recall and Transfer Coach. Runs short retrieval-practice checks (up to three questions, one at a time) on topics the user has studied or supplies, then gives specific feedback. Use this whenever the user wants to test or practise what they know — "quiz me", "check my understanding", "see what I remember", "test me on X", "give me a different scenario", "what if X changed?", or "let me try explaining it back" — even if they never say "recall". Do NOT use when the user asks for an explanation (use help-me-learn) or a diagram (use visualize), and never turn a plain explanation request into a quiz.
 argument-hint: "[topic]"
 ---
 

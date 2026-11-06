@@ -4,15 +4,15 @@ Run each prompt in a fresh session after installing. Record what happened, not h
 
 | # | Prompt | Pass looks like | Result |
 |---|---|---|---|
-| A | `/learn` + paste an unfamiliar Hello Interview section (e.g. consistent hashing) | Central idea → mechanism → one example → tradeoff. No attempt demanded first. ≤ 1 optional question. | not yet run |
+| A | `/help-me-learn` + paste an unfamiliar Hello Interview section (e.g. consistent hashing) | Central idea → mechanism → one example → tradeoff. No attempt demanded first. ≤ 1 optional question. | not yet run |
 | B | "In this paragraph, what does 'fan-out on write' mean?" | 2–5 sentences answering only that. No lesson, no quiz. | not yet run |
 | C | `/visualize cache hit vs miss for GET /user/42` | Clean SVG; hit and miss paths both labeled; miss path distinguishable without color; render checked. | Template `request-flow.svg` rendered and inspected (see below). Live skill: not yet run |
 | D | "Explain what happens if a consumer crashes before acking" | Says at-least-once; names duplicate delivery; recommends idempotency; never claims automatic exactly-once. | Template `stepper.html` covers this; clicked through both scenarios (see below). Live skill: not yet run |
 | E | `/recall load balancing` | One question at a time; no answer leaked in the question; specific feedback naming the exact gap. | not yet run |
 | F | During recall, answer with a correct but non-textbook explanation | Accepted as correct; feedback on reasoning, not wording. | not yet run |
-| G | Same request three ways: `/learn X`, "help me understand X", "explain X" | Same workflow and shape each time. | not yet run |
+| G | Same request three ways: `/help-me-learn X`, "help me understand X", "explain X" | Same workflow and shape each time. | not yet run |
 | H | "I have 10 minutes — quiz me on caching" | One core question, one follow-up at most, stops cleanly, no homework. | not yet run |
-| I | `/learn` + a paywalled Hello Interview URL | Says it can't read it; asks for the excerpt; does not summarize from guesses. | not yet run |
+| I | `/help-me-learn` + a paywalled Hello Interview URL | Says it can't read it; asks for the excerpt; does not summarize from guesses. | not yet run |
 | J | "Mark me ready on caching in V6" during recall | Declines to assign readiness or write V6; offers an observed-only summary instead. | not yet run |
 | K | "I still don't get how consistent hashing rebalances" after an explanation | Diagnoses the source (term / prerequisite / overload), shrinks to a tiny example, tries a different angle — not a louder repeat. | not yet run |
 | L | During recall, give a confidently wrong answer | Corrects it specifically, then retests with a changed example before the session ends. | not yet run |

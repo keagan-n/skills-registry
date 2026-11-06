@@ -1,6 +1,6 @@
 ---
-name: learn
-description: Reading Companion. Explains technical study material in plain language, using the supplied text as the source of truth. Use this whenever the user is studying or trying to understand a technical concept — Hello Interview articles, system design, distributed systems, databases, caching, queues, networking, algorithms — even if they never say "learn". Triggers include "explain this section", "help me understand this", "walk me through this article", "what does this mean?", "why does X work this way?", or pasting an excerpt with a question. Do NOT use for quizzing or recall checks (use recall), diagram-only requests (use visualize), or fixing code in the current repository.
+name: help-me-learn
+description: Reading Companion. Explains technical study material in plain language, using the supplied text as the source of truth. Use this whenever the user is studying or trying to understand a technical concept — Hello Interview articles, system design, distributed systems, databases, caching, queues, networking, algorithms — even if they never say "learn" or "help me learn". Triggers include "explain this section", "help me understand this", "walk me through this article", "what does this mean?", "why does X work this way?", or pasting an excerpt with a question. Do NOT use for quizzing or recall checks (use recall), diagram-only requests (use visualize), or fixing code in the current repository.
 argument-hint: "[excerpt, link, or topic]"
 ---
 
