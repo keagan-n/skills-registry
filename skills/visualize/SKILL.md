@@ -1,6 +1,6 @@
 ---
 name: visualize
-description: Visual Explainer. Produces polished teaching visuals — static SVG diagrams or small interactive step-through pages — for system-design and technical concepts. Use when the user asks to "draw this", "show me how this works", "make a diagram", or "visualize this request flow", or asks to explain something with a diagram. Do NOT use for concepts a short paragraph handles better, and do not quiz the user (that is the recall skill).
+description: Visual Explainer. Produces polished teaching visuals — static SVG diagrams or small interactive step-through pages — for system-design and technical concepts. Use this whenever the user wants to see how something works, such as "draw this", "show me how this works", "make a diagram", "visualize this request flow", "map out the architecture", "step me through what happens when…", or "explain this with a diagram" — even if they never say "visualize". Do NOT use for concepts a short paragraph handles better, and do not quiz the user (use recall).
 argument-hint: "[concept or flow]"
 ---
 
