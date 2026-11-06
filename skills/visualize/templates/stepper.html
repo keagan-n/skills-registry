@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Queue Acknowledgment Walkthrough</title>
+<!--
+  TEMPLATE: step-through with a Normal/Failure switch.
+  To adapt: edit NODES, ARROWS, and SCENARIOS below. Each step lists the
+  active nodes, the active arrow (+ its label), per-node status text, and a caption.
+-->
+<style>
+  :root { --bg:#ffffff; --fg:#1d2128; --muted:#5b6270; --node:#f4f5f7; --stroke:#5b6270;
+          --main:#2f6fdb; --miss:#c2410c; --btn:#eef1f5; --btnfg:#1d2128; --ring:#2f6fdb; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#16181d; --fg:#eceef2; --muted:#a3aab6; --node:#23262d; --stroke:#9aa1ad;
+            --main:#6ea0ff; --miss:#fb923c; --btn:#2a2e36; --btnfg:#eceef2; --ring:#6ea0ff; }
+  }
+  :root[data-theme="dark"] { --bg:#16181d; --fg:#eceef2; --muted:#a3aab6; --node:#23262d; --stroke:#9aa1ad;
+          --main:#6ea0ff; --miss:#fb923c; --btn:#2a2e36; --btnfg:#eceef2; --ring:#6ea0ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 32px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .purpose { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; }
+  button { font: inherit; font-size:14px; padding:6px 12px; border-radius:8px; border:1px solid var(--stroke);
+           background:var(--btn); color:var(--btnfg); cursor:pointer; }
+  button:disabled { opacity:.45; cursor:default; }
+  button:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  .seg { display:inline-flex; border:1px solid var(--stroke); border-radius:8px; overflow:hidden; }
+  .seg button { border:0; border-radius:0; }
+  .seg button[aria-pressed="true"] { background:var(--main); color:#fff; }
+  .seg button.fail[aria-pressed="true"] { background:var(--miss); }
+  #predict[aria-pressed="true"] { background:var(--main); color:#fff; border-color:var(--main); }
+  .caption.ask { border-left-style: dashed; }
+  .stepno { margin-left:auto; font-weight:600; font-size:14px; }
+  svg { width:100%; height:auto; display:block; }
+  svg text { font-family: inherit; fill: var(--fg); }
+  .node rect { fill:var(--node); stroke:var(--stroke); stroke-width:1.5; }
+  .node.active rect { stroke:var(--ring); stroke-width:3.5; }
+  .nlabel { font-size:15px; font-weight:600; text-anchor:middle; }
+  .nstat { font-size:12.5px; text-anchor:middle; fill:var(--muted); }
+  .nstat.bad { fill:var(--miss); font-weight:600; }
+  .arrow line { stroke:var(--stroke); stroke-width:1.5; opacity:.25; }
+  .arrow text { font-size:12.5px; text-anchor:middle; opacity:0; }
+  .arrow.active line { opacity:1; stroke:var(--main); stroke-width:2.5; }
+  .arrow.active.fail line { stroke:var(--miss); stroke-dasharray:7 5; }
+  .arrow.active text { opacity:1; fill:var(--main); font-weight:600; }
+  .arrow.active.fail text { fill:var(--miss); }
+  .caption { border-left:4px solid var(--main); padding:10px 14px; margin:12px 0; background:var(--node); border-radius:0 8px 8px 0; min-height:72px; }
+  .caption.fail { border-left-color: var(--miss); }
+  .caption strong { display:block; margin-bottom:2px; }
+  .note { font-size:13px; color:var(--muted); }
+  .kbd { font-family: ui-monospace, monospace; font-size:12px; border:1px solid var(--stroke); border-radius:4px; padding:0 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Queue acknowledgment</h1>
+  <p class="purpose">How a consumer acks message #7, and why a crash before the ack causes a duplicate delivery (at-least-once, not exactly-once).</p>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Scenario">
+      <button id="sNormal" aria-pressed="true">Normal</button>
+      <button id="sFail" class="fail" aria-pressed="false">Crash before ack</button>
+    </div>
+    <button id="prev" aria-label="Previous step">← Previous</button>
+    <button id="next" aria-label="Next step">Next →</button>
+    <button id="reset">Reset</button>
+    <button id="predict" aria-pressed="false" title="Ask for a prediction before revealing each step">Predict: off</button>
+    <span class="stepno" id="stepno" aria-live="polite"></span>
+  </div>
+
+  <svg viewBox="0 0 800 230" role="img" aria-labelledby="svgt">
+    <title id="svgt">Producer, queue, consumer and database, with the active step highlighted</title>
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+      </marker>
+    </defs>
+    <g id="arrows"></g>
+    <g id="nodes"></g>
+  </svg>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+  <p class="note">Keys: <span class="kbd">←</span> <span class="kbd">→</span> step, <span class="kbd">R</span> reset, <span class="kbd">P</span> predict mode. Simplified: one consumer, one message, broker-side visibility timeout (as in SQS; other brokers use a lease or unacked-redelivery on disconnect).</p>
+</main>
+
+<script>
+const NODES = [
+  { id:"producer", label:"Producer", x:20 },
+  { id:"queue",    label:"Queue",    x:220 },
+  { id:"consumer", label:"Consumer", x:420 },
+  { id:"db",       label:"Database", x:620 },
+];
+const W = 160, Y = 60, H = 100;
+// Arrows: from/to node ids, y position, default label.
+const ARROWS = [
+  { id:"pq",  from:"producer", to:"queue",    y:95 },
+  { id:"qc",  from:"queue",    to:"consumer", y:95 },
+  { id:"cq",  from:"consumer", to:"queue",    y:135 },
+  { id:"cdb", from:"consumer", to:"db",       y:110 },
+];
+const S = (n, s, bad) => ({ [n]: { text:s, bad:!!bad } });
+const SCENARIOS = {
+  normal: [
+    { nodes:["producer","queue"], arrow:"pq", label:"publish #7", status:{...S("queue","#7 stored")},
+      title:"Publish", text:"The producer sends message #7 (\"charge order 123\"). The queue stores it durably." },
+    { nodes:["queue","consumer"], arrow:"qc", label:"deliver #7", status:{...S("queue","#7 in flight (hidden)")},
+      title:"Deliver", text:"The queue hands #7 to the consumer and hides it from other consumers until a visibility timeout expires. It is not deleted yet." },
+    { nodes:["consumer","db"], arrow:"cdb", label:"charge order 123", status:{...S("queue","#7 in flight (hidden)"), ...S("db","order 123 charged")},
+      title:"Process", text:"The consumer does the work: it writes the charge to the database." },
+    { nodes:["consumer","queue"], arrow:"cq", label:"ack #7", status:{...S("queue","#7 acked"), ...S("db","order 123 charged")},
+      ask:"The database write succeeded. What does the consumer send next, and why only now?",
+      title:"Acknowledge", text:"Only after the work succeeds does the consumer ack #7. Acking after processing is what makes the system at-least-once." },
+    { nodes:["queue"], arrow:null, status:{...S("queue","#7 deleted"), ...S("db","order 123 charged")},
+      title:"Done", text:"The queue deletes #7. In this run the order was charged exactly one time — but that is this run's outcome, not a guarantee." },
+  ],
+  fail: [
+    { nodes:["producer","queue"], arrow:"pq", label:"publish #7", status:{...S("queue","#7 stored")},
+      title:"Publish", text:"Same start: message #7 is stored in the queue." },
+    { nodes:["queue","consumer"], arrow:"qc", label:"deliver #7", status:{...S("queue","#7 in flight (hidden)")},
+      title:"Deliver", text:"#7 is delivered and hidden behind a visibility timeout." },
+    { nodes:["consumer","db"], arrow:"cdb", label:"charge order 123", status:{...S("queue","#7 in flight (hidden)"), ...S("db","order 123 charged")},
+      title:"Process", text:"The consumer charges order 123 in the database." },
+    { nodes:["consumer"], arrow:null, status:{...S("consumer","crashed — no ack", true), ...S("queue","#7 in flight (hidden)"), ...S("db","order 123 charged")}, fail:true,
+      ask:"The consumer has written to the database but not acked. What if it crashes right now?",
+      title:"Crash before ack", text:"The consumer crashes after the database write but before sending the ack. The queue has no idea the work was done." },
+    { nodes:["queue","consumer"], arrow:"qc", label:"redeliver #7", failArrow:true, status:{...S("queue","timeout → visible again", true), ...S("consumer","restarted"), ...S("db","order 123 charged")}, fail:true,
+      ask:"The queue never received an ack for #7. What will it do?",
+      title:"Redelivery", text:"The visibility timeout expires, #7 becomes visible again, and it is delivered a second time. This is a duplicate delivery." },
+    { nodes:["consumer","db"], arrow:"cdb", label:"already processed? → skip", failArrow:true, status:{...S("queue","#7 in flight (hidden)"), ...S("consumer","checks key #7"), ...S("db","still charged once")}, fail:true,
+      ask:"#7 has arrived a second time. How can the consumer avoid charging order 123 twice?",
+      title:"Idempotent handling", text:"A safe consumer is idempotent: it records processed message IDs (or uses a unique idempotency key) in the same transaction as the charge, sees #7 was done, and skips. Without this, order 123 is charged twice." },
+    { nodes:["consumer","queue"], arrow:"cq", label:"ack #7", status:{...S("queue","#7 deleted"), ...S("db","still charged once")}, fail:true,
+      title:"Ack and delete", text:"The consumer acks, and the queue deletes #7. Takeaway: the queue gives at-least-once delivery; effectively-once results come from the consumer's idempotency, not the queue." },
+  ],
+};
+
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs={}, text) => { const e=document.createElementNS(NS,tag); for (const k in attrs) e.setAttribute(k,attrs[k]); if (text!=null) e.textContent=text; return e; };
+
+// Build the SVG. Wide screens: left-to-right row. Narrow screens: top-to-bottom column.
+const nodeEls = {}, arrowEls = {};
+const svg = document.querySelector("svg");
+function build() {
+  const vertical = window.innerWidth < 600;
+  $("nodes").replaceChildren(); $("arrows").replaceChildren();
+  const pos = {};
+  NODES.forEach((n, i) => pos[n.id] = vertical
+    ? { x:20, y:20 + i*130, w:170, h:80 }
+    : { x:n.x, y:Y, w:W, h:H });
+  svg.setAttribute("viewBox", vertical ? "0 0 400 520" : "0 0 800 230");
+  for (const n of NODES) {
+    const p = pos[n.id];
+    const g = el("g", { class:"node" });
+    g.append(el("rect", { x:p.x, y:p.y, width:p.w, height:p.h, rx:10 }));
+    g.append(el("text", { class:"nlabel", x:p.x+p.w/2, y:p.y+p.h/2-4 }, n.label));
+    const st = el("text", { class:"nstat", x:p.x+p.w/2, y:p.y+p.h/2+18 }, "");
+    g.append(st);
+    $("nodes").append(g);
+    nodeEls[n.id] = { g, st };
+  }
+  for (const a of ARROWS) {
+    const f = pos[a.from], t = pos[a.to];
+    const g = el("g", { class:"arrow" });
+    let line, label;
+    if (vertical) {
+      const down = t.y > f.y, x = down ? 80 : 130;
+      const y1 = down ? f.y+f.h : f.y, y2 = down ? t.y-2 : t.y+t.h+2;
+      line = el("line", { x1:x, y1, x2:x, y2, "marker-end":"url(#ah)" });
+      label = el("text", { x:205, y:(y1+y2)/2+4, style:"text-anchor:start" }, "");
+    } else {
+      const right = t.x > f.x;
+      const x1 = right ? f.x+f.w : f.x, x2 = right ? t.x-2 : t.x+t.w+2;
+      line = el("line", { x1, y1:a.y, x2, y2:a.y, "marker-end":"url(#ah)" });
+      // Labels sit above the gap for forward arrows and below for return arrows.
+      label = el("text", { x:(x1+x2)/2, y: right ? 40 : 200 }, "");
+    }
+    g.append(line, label);
+    $("arrows").append(g);
+    arrowEls[a.id] = { g, t: label };
+  }
+}
+build();
+
+let scenario = "normal", step = 0;
+let predict = false;   // Predict mode: Next first asks, then reveals.
+let pending = false;   // true = we're asking about `step` but still showing step-1.
+function render() {
+  const steps = SCENARIOS[scenario], target = steps[step];
+  const s = pending ? steps[step-1] : target;   // what the diagram shows
+  for (const id in nodeEls) {
+    nodeEls[id].g.classList.toggle("active", s.nodes.includes(id));
+    const st = (s.status||{})[id];
+    nodeEls[id].st.textContent = st ? st.text : "";
+    nodeEls[id].st.classList.toggle("bad", !!(st && st.bad));
+  }
+  for (const id in arrowEls) {
+    const on = s.arrow === id;
+    arrowEls[id].g.classList.toggle("active", on);
+    arrowEls[id].g.classList.toggle("fail", on && !!s.failArrow);
+    arrowEls[id].t.textContent = on ? s.label : "";
+  }
+  const cap = $("caption");
+  cap.innerHTML = "";
+  const b = document.createElement("strong");
+  if (pending) {
+    cap.className = "caption ask";
+    b.textContent = `Predict step ${step+1}`;
+    cap.append(b, document.createTextNode(target.ask || "What happens next? Decide before you reveal it."));
+  } else {
+    cap.className = "caption" + (s.fail ? " fail" : "");
+    b.textContent = `${step+1}. ${s.title}`;
+    cap.append(b, document.createTextNode(s.text));
+  }
+  $("stepno").textContent = `Step ${step+1} of ${steps.length}`;
+  $("prev").disabled = step === 0 && !pending;
+  $("next").disabled = step === steps.length-1 && !pending;
+  $("next").textContent = pending ? "Reveal →" : "Next →";
+  $("predict").textContent = "Predict: " + (predict ? "on" : "off");
+  $("predict").setAttribute("aria-pressed", predict);
+  $("sNormal").setAttribute("aria-pressed", scenario==="normal");
+  $("sFail").setAttribute("aria-pressed", scenario==="fail");
+}
+function go(d) {
+  const n = SCENARIOS[scenario].length;
+  if (d > 0) {
+    if (pending) pending = false;                       // reveal
+    else if (step < n-1) { step++; pending = predict; } // advance (ask first if predicting)
+  } else {
+    if (pending) { pending = false; step--; }           // back out of the question
+    else if (step > 0) step--;
+  }
+  render();
+}
+const restart = () => { step = 0; pending = false; render(); };
+$("prev").onclick = () => go(-1);
+$("next").onclick = () => go(1);
+$("reset").onclick = restart;
+$("predict").onclick = () => { predict = !predict; if (!predict && pending) pending = false; render(); };
+$("sNormal").onclick = () => { scenario="normal"; restart(); };
+$("sFail").onclick = () => { scenario="fail"; restart(); };
+document.addEventListener("keydown", e => {
+  if (e.target.closest && e.target.closest("input,textarea")) return;
+  if (e.key==="ArrowRight") go(1);
+  else if (e.key==="ArrowLeft") go(-1);
+  else if (e.key==="r" || e.key==="R") restart();
+  else if (e.key==="p" || e.key==="P") $("predict").click();
+});
+let wasVertical = window.innerWidth < 600;
+window.addEventListener("resize", () => { const v = window.innerWidth < 600; if (v !== wasVertical) { wasVertical = v; build(); render(); } });
+render();
+</script>
+</body>
+</html>

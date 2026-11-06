@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">Cache-aside read: hit vs miss</title>
+  <desc id="d">A client requests user 42. The app server checks the cache first. On a hit it returns the cached value. On a miss it reads the database, writes the row into the cache with a TTL, then responds.</desc>
+  <style>
+    svg { --bg:#ffffff; --fg:#1d2128; --muted:#5b6270; --node:#f4f5f7; --stroke:#5b6270; --main:#2f6fdb; --miss:#c2410c; --group:#fafbfc; }
+    @media (prefers-color-scheme: dark) {
+      svg { --bg:#16181d; --fg:#eceef2; --muted:#a3aab6; --node:#23262d; --stroke:#9aa1ad; --main:#6ea0ff; --miss:#fb923c; --group:#1b1e24; }
+    }
+    text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; fill: var(--fg); }
+    .bg { fill: var(--bg); }
+    .title { font-size: 20px; font-weight: 650; }
+    .sub { font-size: 13px; fill: var(--muted); }
+    .node { fill: var(--node); stroke: var(--stroke); stroke-width: 1.5; }
+    .nlabel { font-size: 14px; font-weight: 600; text-anchor: middle; }
+    .nsub { font-size: 12px; fill: var(--muted); text-anchor: middle; }
+    .main { stroke: var(--main); stroke-width: 2; fill: none; }
+    .neutral { stroke: var(--stroke); stroke-width: 2; fill: none; }
+    .miss { stroke: var(--miss); stroke-width: 2; fill: none; stroke-dasharray: 7 5; }
+    .alabel { font-size: 12px; text-anchor: middle; }
+    .pill { fill: var(--bg); }
+    .missText { fill: var(--miss); }
+    .mainText { fill: var(--main); }
+  </style>
+  <defs>
+    <marker id="aMain" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--main)"/></marker>
+    <marker id="aMiss" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--miss)"/></marker>
+    <marker id="aNeutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--stroke)"/></marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="760" height="450"/>
+  <text class="title" x="20" y="34">Cache-aside read: hit vs miss</text>
+  <text class="sub" x="20" y="56">Tracing GET /user/42. A hit follows ①②③⑦. A miss also runs ④⑤⑥ (dashed orange).</text>
+
+  <!-- Nodes -->
+  <rect class="node" x="20" y="130" width="110" height="100" rx="10"/>
+  <text class="nlabel" x="75" y="176">Client</text>
+  <text class="nsub" x="75" y="196">browser / app</text>
+
+  <rect class="node" x="235" y="130" width="150" height="100" rx="10"/>
+  <text class="nlabel" x="310" y="176">App server</text>
+  <text class="nsub" x="310" y="196">cache-aside logic</text>
+
+  <rect class="node" x="570" y="130" width="170" height="100" rx="10"/>
+  <text class="nlabel" x="655" y="176">Cache</text>
+  <text class="nsub" x="655" y="196">in-memory, e.g. Redis</text>
+
+  <rect class="node" x="570" y="300" width="170" height="90" rx="10"/>
+  <text class="nlabel" x="655" y="340">Database</text>
+  <text class="nsub" x="655" y="360">source of truth</text>
+
+  <!-- ① request, ⑦ response -->
+  <line class="main" x1="130" y1="165" x2="233" y2="165" marker-end="url(#aMain)"/>
+  <text class="alabel mainText" x="182" y="155">① GET /user/42</text>
+  <line class="main" x1="235" y1="200" x2="132" y2="200" marker-end="url(#aMain)"/>
+  <text class="alabel mainText" x="182" y="218">⑦ 200 + user</text>
+
+  <!-- ② get, ③ result, ⑥ set -->
+  <line class="main" x1="385" y1="150" x2="568" y2="150" marker-end="url(#aMain)"/>
+  <rect class="pill" x="425" y="141" width="104" height="17" rx="8"/>
+  <text class="alabel mainText" x="477" y="154">② GET user:42</text>
+
+  <line class="neutral" x1="570" y1="180" x2="387" y2="180" marker-end="url(#aNeutral)"/>
+  <rect class="pill" x="395" y="171" width="164" height="17" rx="8"/>
+  <text class="alabel" x="477" y="184">③ value (hit) or null (miss)</text>
+
+  <line class="miss" x1="385" y1="210" x2="568" y2="210" marker-end="url(#aMiss)"/>
+  <rect class="pill" x="400" y="201" width="154" height="17" rx="8"/>
+  <text class="alabel missText" x="477" y="214">⑥ SET user:42 with TTL</text>
+
+  <!-- ④ DB read, ⑤ row back -->
+  <path class="miss" d="M315,230 L315,325 L568,325" marker-end="url(#aMiss)"/>
+  <text class="alabel missText" x="442" y="316">④ miss → SELECT … WHERE id=42</text>
+  <path class="miss" d="M570,365 L275,365 L275,232" marker-end="url(#aMiss)"/>
+  <text class="alabel missText" x="422" y="383">⑤ row returned</text>
+
+  <!-- Legend + simplification note -->
+  <line class="main" x1="20" y1="420" x2="52" y2="420"/>
+  <text class="sub" x="60" y="424">every request</text>
+  <line class="miss" x1="160" y1="420" x2="192" y2="420"/>
+  <text class="sub" x="200" y="424">only on a miss</text>
+  <text class="sub" x="740" y="424" text-anchor="end">Simplified: ignores writes/invalidation and stampedes.</text>
+</svg>
