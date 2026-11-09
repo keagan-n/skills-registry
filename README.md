@@ -1,74 +1,49 @@
-# skills-registry
+# Learning skills
 
-Five personal learning skills, published from GitHub as the **learning** Claude Code plugin in the **keagan-skills** marketplace.
+Five skills for Claude Code, installed together from this GitHub repository.
 
-## Install in Claude Code
+## Install
 
-Run these inside Claude Code (not your shell):
+Run these **inside Claude Code**:
 
 ```text
 /plugin marketplace add keagan-n/skills-registry
 /plugin install learning@keagan-skills
 ```
 
-Choose user scope to make the plugin available across projects. This private repository requires GitHub access. Claude downloads a managed plugin copy; no Documents checkout or hand-created symlinks are required.
+Choose **user scope** to use the skills across projects. This private repo requires GitHub access. Follow Claude's reload prompt or start a new session, then type `/learning:` to find the commands. No manual cloning or symlinks needed.
 
-On newer Claude Code versions supporting the combined marketplace flag, the equivalent is:
+## Use
 
-```text
-/plugin install learning --marketplace keagan-n/skills-registry
-```
-
-The two-command form works with the installed version checked during packaging (2.1.158). Follow Claude's reload prompt or start a new session after installation.
-
-## Commands
-
-| Command | Purpose | Automatic selection |
+| Command | What it does | Trigger |
 |---|---|---|
-| `/learning:help-me-learn` | Explain technical study material | Allowed |
-| `/learning:visualize` | Draw diagrams and interactive explanations | Allowed |
-| `/learning:recall` | Check understanding, one question at a time | Allowed |
-| `/learning:unstuck` | Guide practice with graduated hints | Disabled: manual only |
-| `/learning:basketball-terms` | Explain simply through basketball, favoring 2010s examples | Disabled: manual only |
+| `/learning:help-me-learn` | Explain technical material clearly | Manual or automatic |
+| `/learning:visualize` | Draw diagrams and interactive explanations | Manual or automatic |
+| `/learning:recall` | Check understanding, one question at a time | Manual or automatic |
+| `/learning:unstuck` | Work through practice problems with hints | Manual only |
+| `/learning:basketball-terms` | Explain through basketball, favoring 2010s NBA examples | Manual only |
 
-Example:
+Add your topic after the command:
 
 ```text
 /learning:basketball-terms explain database indexes
 ```
 
-Existing standalone installations keep their plain commands, such as `/basketball-terms`. Installing the plugin alongside those copies creates two sources of the same skills. After verifying the plugin, remove only the old symlinks from `~/.claude/skills/` to avoid duplicate loading. Keep standalone Codex installations separate; the Claude plugin installation does not configure Codex.
+If you previously installed standalone copies, verify the plugin works before removing the old skill symlinks from `~/.claude/skills/`. The Claude plugin does not install skills in Codex.
 
-## Updates
+## Update
 
-Use `/plugin` to manage marketplace updates and auto-update settings. From a shell with Claude Code installed:
+Use `/plugin` to manage updates or enable automatic updates. From your terminal:
 
 ```bash
 claude plugin marketplace update keagan-skills
 claude plugin update learning@keagan-skills
 ```
 
-Reload as instructed or start a new session. Plugin updates come from GitHub. Local development changes are not published until committed and pushed. Bump the version in both manifests when releasing plugin changes.
+Follow the reload instructions or start a new session.
 
-## What is packaged
+## Details
 
-The root `.claude-plugin/plugin.json` names the plugin. `.claude-plugin/marketplace.json` lists it with the repository root as its source. Claude discovers the five folders under `skills/` automatically. References and visualization templates stay alongside their skills. No hooks, MCP servers, or agents are added by this package.
-
-- [Basketball architecture, LLM, hooks, and token usage](skills/basketball-terms/references/architecture-and-tokens.md)
-- [NBA reference bank](skills/basketball-terms/references/nba-reference-bank.md)
-- [Dated current NBA lookup](skills/basketball-terms/references/current-nba.md)
-- [Acceptance cases](EVALS.md)
-
-The basketball skill retains its Codex metadata with automatic invocation disabled. Its current roster bank is dated and requires live verification for current claims.
-
-## Standalone installation alternative
-
-For plain slash commands, use a GitHub-backed checkout under `~/.local/share/skills-registry` and link the desired skill folders into `~/.claude/skills/`. This is the earlier standalone setup, not a prerequisite for the plugin. Its manual update command is:
-
-```bash
-git -C ~/.local/share/skills-registry pull --ff-only
-```
-
-## Validation
-
-Validate manifests with `claude plugin validate .` and `claude plugin validate .claude-plugin/plugin.json`. The existing acceptance cases describe behavioral checks; they are not evidence of completed live evaluations. Confirm the namespaced commands in a fresh installed session.
+- [Architecture, hooks, and token usage](skills/basketball-terms/references/architecture-and-tokens.md)
+- [NBA examples](skills/basketball-terms/references/nba-reference-bank.md) and [dated roster lookup](skills/basketball-terms/references/current-nba.md)
+- [Evaluation cases](EVALS.md)
