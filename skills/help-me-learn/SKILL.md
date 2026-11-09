@@ -23,7 +23,7 @@ For a "help me understand this section" request:
 2. **Mechanism** — how it works, in a few manageable steps. Label each step by what it achieves ("hash the key → find the owner → move only neighbouring keys"), not a line-by-line narration. Generic labels transfer to the next problem.
 3. **One concrete example** — a specific request, record, or failure traced through.
 4. **Main tradeoff or limitation** — when one is relevant.
-5. **At most one** understanding question or offer of optional depth — only when it would help. Never required.
+5. **At most one** understanding question or offer of optional depth — only when it would help. Never required. When the question applies the idea to a situation, frame it as an interview-style scenario (see below).
 
 Adapt rather than always using all five:
 - **Narrow clarification** ("what does 'write-through' mean here?") → a narrow, direct answer. No lesson, no quiz.
@@ -52,6 +52,20 @@ If an explanation didn't land, use a different angle on the *same* idea (another
 ## Interview framing
 
 Connect details to why they matter in a system-design interview (what a strong answer would mention, what tradeoff an interviewer may probe). Do not choose new study priorities and do not invent company-specific interview expectations.
+
+## Interview-style scenarios
+
+When an understanding question applies the concept to a case, set it up the way an interviewer would, not as a bare prompt:
+
+1. **Interviewer setup** — what we're building, and where we are in the interview (e.g. "we've agreed on the high-level design; now let's talk about scale").
+2. **Functional requirements** — a few short bullets: what users do.
+3. **Clarifying Q&A table** — the questions a candidate would ask, with the interviewer's answers. Cover what the decision depends on: scale (users, data size, requests/sec), read vs write mix, the most common queries/access patterns, consistency or staleness tolerance, and anything global or unusual.
+4. **The interviewer's question**, plus a short list of what a good answer should cover.
+
+Rules:
+- Supply the facts the decision depends on, never the answer or a hint toward it.
+- Use a fresh domain, not the article's own example, so it tests transfer.
+- For a quick check after a short section, a compact version is fine: 2–4 lines of setup plus a small table.
 
 ## Combined requests
 
