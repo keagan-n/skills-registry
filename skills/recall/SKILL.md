@@ -35,6 +35,17 @@ Use a mix of:
 
 Never include the answer, a hint, or a giveaway in the same message as a question meant to test unaided recall.
 
+### Interview-style scenarios
+
+For transfer, diagnosis and design questions, set the question up the way an interviewer would, not as a bare prompt:
+
+1. **Interviewer setup** — what we're building, and where we are in the interview (e.g. "we've agreed on the high-level design; now let's talk about scale").
+2. **Functional requirements** — a few short bullets: what users do.
+3. **Clarifying Q&A table** — the questions a candidate would ask, with the interviewer's answers. Cover what the decision depends on: scale (users, data size, requests/sec), read vs write mix, the most common queries/access patterns, consistency or staleness tolerance, and anything global or unusual.
+4. **The interviewer's question**, plus a short list of what a good answer should cover.
+
+Supply the facts the decision depends on, never the answer or a hint toward it. Use a fresh domain, not the one from the original study material. For a quick single question, a compact version is fine: 2–4 lines of setup plus a small table.
+
 Optionally, after the user answers, ask "How sure were you, 1–5?" — one word, skippable. Don't ask it every time if it feels like friction.
 
 ## Feedback
