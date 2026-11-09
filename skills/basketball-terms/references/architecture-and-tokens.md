@@ -10,16 +10,24 @@ Claude Code discovers the local skill through this link:
 
 ```text
 ~/.claude/skills/basketball-terms
-  -> /Users/knguyen/Documents/skills-registry/skills/basketball-terms
+  -> ~/.local/share/skills-registry/skills/basketball-terms
 ```
 
-The repo is the maintained copy. GitHub distributes updates, while Claude reads the local files. A GitHub push alone does not update a checkout on another machine.
+GitHub is the published source of truth. The runtime installation is a separate checkout cloned directly from `https://github.com/keagan-n/skills-registry.git` into `~/.local/share/skills-registry`. Claude reads this downloaded installation, not a Documents development checkout. A GitHub push alone does not update installed files.
+
+Update all installed skills with:
+
+```bash
+git -C ~/.local/share/skills-registry pull --ff-only
+```
+
+Then reload skills or start a new session. Updates are manual; no startup hook or background updater is configured. This preserves plain slash commands while eliminating the Documents dependency. The same installation supplies all five personal Claude skills and Codex's `basketball-terms`.
 
 ## Request flow, including the LLM and tokens
 
 ```mermaid
 flowchart TD
-    G["GitHub skills-registry"] -->|"git pull updates local files"| R["Local repository and skill symlink
+    G["GitHub skills-registry"] -->|"git pull updates installed files"| R["GitHub-backed installed checkout and skill symlink
 Storage itself uses no LLM tokens"]
     R --> D["Claude Code discovers /basketball-terms
 Manual-only: no skill context until invoked"]

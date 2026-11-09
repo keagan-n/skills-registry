@@ -32,11 +32,31 @@ Published skill: `skills/basketball-terms`. Uses simple explanations and favors 
 - Claude Code: `/basketball-terms explain database indexes`
 - Codex: select it through `/skills`, or type `$basketball-terms explain database indexes`.
 - Automatic activation is disabled with Claude Code's `disable-model-invocation: true` and Codex's `policy.allow_implicit_invocation: false`.
-- The local skill is linked into `~/.claude/skills/basketball-terms` and `~/.codex/skills/basketball-terms`. Start a new session after installation to check menu discovery.
+- The skill is installed from GitHub into `~/.local/share/skills-registry`; Claude and Codex skill links point into that installation, never a Documents checkout. Start a new session after installation to check menu discovery.
 - For another machine, clone this repo and link or copy the folder into the app's user skills directory. GitHub publication alone does not install a skill.
 - Research snapshot: November 8, 2026. See the skill's references for sources and refresh instructions. Behavioral cases are provided but have not yet been run in a fresh installed session.
 
-## Install
+## GitHub-backed local installation
+
+GitHub is the published source of truth. The installed checkout lives at `~/.local/share/skills-registry`, independently of any development checkout in Documents. Claude links all five skills there; Codex links `basketball-terms`. Plain slash commands are preserved. Existing invocation policies are unchanged.
+
+Install a fresh checkout directly from GitHub:
+
+```bash
+git clone https://github.com/keagan-n/skills-registry.git ~/.local/share/skills-registry
+```
+
+Link each skill folder from that installation into `~/.claude/skills/`. For Codex, link `basketball-terms` into `~/.codex/skills/`. Existing symlinks can be replaced; preserve any real directories containing local edits before changing an installation.
+
+Update the installed skills from GitHub:
+
+```bash
+git -C ~/.local/share/skills-registry pull --ff-only
+```
+
+Updates are manual; this setup adds no startup hook or background updater. After an update, reload skills or start a new session. The installation must authenticate to this private GitHub repo. Local execution still reads downloaded files, but does not depend on Documents or fetch the whole repo for each explanation.
+
+## Alternative installation methods
 
 ### Claude Code (CLI or desktop Code tab)
 User-level skills live in `~/.claude/skills/<name>/SKILL.md`. Each skill folder's name becomes its slash command.
