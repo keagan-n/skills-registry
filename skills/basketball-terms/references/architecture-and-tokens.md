@@ -6,7 +6,13 @@ This document explains the Claude Code setup published on November 8, 2026. It i
 
 A skill is a reusable set of text instructions for the Claude large language model (LLM). When invoked, this one asks the model to explain an idea simply through basketball, favoring 2010s examples. It uses the existing model in your conversation; it does not train a model or require a separate LLM call just because it is a skill.
 
-Claude Code discovers the local skill through this link:
+## GitHub plugin installation
+
+The repository also ships the `learning` plugin in the `keagan-skills` marketplace. Install with `/plugin marketplace add keagan-n/skills-registry`, then `/plugin install learning@keagan-skills`. Claude manages the downloaded copy. Invoke `/learning:basketball-terms`; its manual-only policy is unchanged. GitHub → marketplace → plugin cache → skill instructions → LLM is the plugin flow. The diagrams below describe the same LLM and token behavior; their symlink node applies only to the standalone alternative. No custom hooks are packaged.
+
+## Standalone installation alternative
+
+The earlier standalone setup discovers the local skill through this link:
 
 ```text
 ~/.claude/skills/basketball-terms

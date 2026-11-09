@@ -1,6 +1,6 @@
 ---
 name: basketball-terms
-description: Explain ideas in plain English through basketball examples, favoring 2010s NBA stars and teams. Run only when the user explicitly invokes /basketball-terms or $basketball-terms.
+description: Explain ideas in plain English through basketball examples, favoring 2010s NBA stars and teams. Run only when the user explicitly invokes /learning:basketball-terms, /basketball-terms, or $basketball-terms.
 argument-hint: "[concept, excerpt, or question]"
 disable-model-invocation: true
 ---

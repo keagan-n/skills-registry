@@ -1,0 +1,9 @@
+{
+  "name": "learning",
+  "version": "1.0.0",
+  "description": "Five learning skills: explain, visualize, recall, get unstuck, and explain in basketball terms.",
+  "author": {
+    "name": "keagan-n"
+  },
+  "repository": "https://github.com/keagan-n/skills-registry"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "keagan-skills",
+  "owner": {
+    "name": "keagan-n"
+  },
+  "plugins": [
+    {
+      "name": "learning",
+      "source": "./",
+      "version": "1.0.0",
+      "description": "Five learning skills: explain, visualize, recall, get unstuck, and explain in basketball terms."
+    }
+  ],
+  "description": "Personal learning skills published by keagan-n."
+}

@@ -1,6 +1,6 @@
 ---
 name: unstuck
-description: Unstuck Coach. Coaches the user through a practice problem they are stuck on — a LeetCode/DSA problem, a system-design prompt, a practice bug, or a concept — without handing over the answer. Gets them writing (restating, tiny examples, brute force, one hypothesis), gives graded hints one rung at a time, then turns the solution into a pattern they own. Runs only when the user types /unstuck.
+description: Unstuck Coach. Coaches the user through a practice problem they are stuck on — a LeetCode/DSA problem, a system-design prompt, a practice bug, or a concept — without handing over the answer. Gets them writing (restating, tiny examples, brute force, one hypothesis), gives graded hints one rung at a time, then turns the solution into a pattern they own. Runs only when the user explicitly invokes /learning:unstuck or /unstuck.
 argument-hint: "[problem, prompt, or bug]"
 disable-model-invocation: true
 ---
