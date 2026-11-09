@@ -4,7 +4,7 @@ My Claude skills, versioned in one place.
 
 ## Learning skills
 
-Four Claude skills: **help-me-learn** (Reading Companion), **visualize** (Visual Explainer) and **recall** (Recall and Transfer Coach) from the November 6, 2026 spec, plus **unstuck** (Unstuck Coach), added the same day from the "Stop staring" cheat sheet.
+Five skills: **basketball-terms** (Basketball Explainer), **help-me-learn** (Reading Companion), **visualize** (Visual Explainer) and **recall** (Recall and Transfer Coach) from the November 6, 2026 spec, plus **unstuck** (Unstuck Coach), added the same day from the "Stop staring" cheat sheet.
 
 **Status: installed for Claude Code on Nov 6, 2026** at `~/.claude/skills/{help-me-learn,visualize,recall,unstuck}`. Not yet confirmed in a new session's `/` menu. Not uploaded to claude.ai.
 
@@ -24,6 +24,17 @@ skills-registry/
 ├── EVALS.md                  (acceptance cases A–S)
 └── README.md                 (this file: install + quick reference)
 ```
+
+## Basketball Terms — manual only
+
+Published skill: `skills/basketball-terms`. Uses simple explanations and favors 2010s NBA references; preserves a separate current NBA lookup.
+
+- Claude Code: `/basketball-terms explain database indexes`
+- Codex: select it through `/skills`, or type `$basketball-terms explain database indexes`.
+- Automatic activation is disabled with Claude Code's `disable-model-invocation: true` and Codex's `policy.allow_implicit_invocation: false`.
+- The local skill is linked into `~/.claude/skills/basketball-terms` and `~/.codex/skills/basketball-terms`. Start a new session after installation to check menu discovery.
+- For another machine, clone this repo and link or copy the folder into the app's user skills directory. GitHub publication alone does not install a skill.
+- Research snapshot: November 8, 2026. See the skill's references for sources and refresh instructions. Behavioral cases are provided but have not yet been run in a fresh installed session.
 
 ## Install
 

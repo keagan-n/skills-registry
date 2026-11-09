@@ -1,0 +1,6 @@
+interface:
+  display_name: "Basketball Terms"
+  short_description: "Explain ideas with 2010s NBA examples"
+  default_prompt: "Use $basketball-terms to explain this concept in simple basketball terms."
+policy:
+  allow_implicit_invocation: false
