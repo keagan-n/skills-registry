@@ -37,3 +37,5 @@ Understand the original mechanism before choosing a comparison. Preserve its imp
 Never invent a game, quote, statistic, or player partnership. Label imagined possessions as illustrations when they might sound like real events. Separate what a supplied article says from your explanation; don't pretend to read an inaccessible source. Use respectful language for sensitive personal topics.
 
 For skill development, use [acceptance cases](references/acceptance-cases.md). Don't load them for ordinary explanations.
+
+For questions about installation, Claude Code architecture, hooks, or token use, read [architecture and token usage](references/architecture-and-tokens.md). Do not load this documentation for ordinary basketball explanations.
